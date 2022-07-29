@@ -88,6 +88,19 @@ public class TextChecker {
         if (similarities.size() == 0) {
             System.out.println("No similarities of length " + minimumMatchLength + " were found.");
         }
+        else {
+
+            System.out.println("\nFOUND " + similarities.size() + " SIMILARITIES.\n\n");
+
+            for (String similarity : similarities) {
+
+                System.out.println("Similarity found: " + similarity);
+
+            }
+
+            System.out.println();
+
+        }
 
     }
 
