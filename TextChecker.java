@@ -90,7 +90,7 @@ public class TextChecker {
         }
         else { // if there were similarities found, print them all
 
-            System.out.println("\nFOUND " + similarities.size() + " SIMILARITIES.\n\n");
+            System.out.println("\nFOUND " + similarities.size() + " SIMILARITIES. (" + minimumMatchLength + " words or longer)\n\n");
 
             for (String similarity : similarities) {
 
