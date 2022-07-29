@@ -10,7 +10,7 @@ public class TextChecker {
 
     public static void main(String[] args) {
         
-        String usageStr = "Usage: <file 1> <file 2> [minimum match length]";
+        String usageStr = "\nUsage: <file 1> <file 2> [minimum match length]\n";
 
         // if the number of arguments provided is clearly wrong, inform the user on how to use this program
         if (args.length < 2 || args.length > 3) {
@@ -33,7 +33,7 @@ public class TextChecker {
             }
             catch (NumberFormatException e) {
                 minimumMatchLength = 3; // default
-                System.err.println("ERROR: Please enter a valid integer for the minimum match length.");
+                System.err.println("\nERROR: Please enter a valid integer for the minimum match length.\n");
                 System.exit(-1);
             }
         }
@@ -41,11 +41,11 @@ public class TextChecker {
 
         // confirm file existence
         if (!file1.exists()) {
-            System.err.println("ERROR: File " + file1.getName() + " does not exist!");
+            System.err.println("\nERROR: File " + file1.getName() + " does not exist!\n");
             System.exit(-1);
         }
         else if (!file2.exists()) {
-            System.err.println("ERROR: File " + file2.getName() + " does not exist!");
+            System.err.println("\nERROR: File " + file2.getName() + " does not exist!\n");
             System.exit(-1);
         }
 
@@ -61,7 +61,7 @@ public class TextChecker {
             }
 
         } catch (IOException e) {
-            System.err.println("ERROR: Could not read file " + file1.getName() + " -- " + e.getMessage());
+            System.err.println("\nERROR: Could not read file " + file1.getName() + " -- " + e.getMessage() + "\n");
             System.exit(-1);
         }
 
@@ -77,7 +77,7 @@ public class TextChecker {
             }
 
         } catch (IOException e) {
-            System.err.println("ERROR: Could not read file " + file2.getName() + " -- " + e.getMessage());
+            System.err.println("\nERROR: Could not read file " + file2.getName() + " -- " + e.getMessage() + "\n");
             System.exit(-1);
         }
 
