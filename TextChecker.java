@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +12,7 @@ public class TextChecker {
         
         String usageStr = "Usage: <file 1> <file 2> [minimum match length]";
 
+        // if the number of arguments provided is clearly wrong, inform the user on how to use this program
         if (args.length < 2 || args.length > 3) {
             System.out.println(usageStr);
             System.exit(-1);
@@ -26,19 +25,19 @@ public class TextChecker {
         File file1 = Paths.get(file1Path).toFile();
         File file2 = Paths.get(file2Path).toFile();
 
-        // check the minimum match length
+        // check the minimum match length (default is 3)
         int minimumMatchLength;
         if (args.length == 3) {
             try {
                 minimumMatchLength = Integer.parseInt(args[2]);
             }
             catch (NumberFormatException e) {
-                minimumMatchLength = 3;
+                minimumMatchLength = 3; // default
                 System.err.println("ERROR: Please enter a valid integer for the minimum match length.");
                 System.exit(-1);
             }
         }
-        else minimumMatchLength = 3;
+        else minimumMatchLength = 3; // default
 
         // confirm file existence
         if (!file1.exists()) {
@@ -85,10 +84,11 @@ public class TextChecker {
         // compare the words
         List<String> similarities = getSimilarities(file1Words, file2Words, minimumMatchLength);
 
+        // if there are no similarities found, report so.
         if (similarities.size() == 0) {
-            System.out.println("No similarities of length " + minimumMatchLength + " were found.");
+            System.out.println("\nNo similarities of length " + minimumMatchLength + " were found.\n\n");
         }
-        else {
+        else { // if there were similarities found, print them all
 
             System.out.println("\nFOUND " + similarities.size() + " SIMILARITIES.\n\n");
 
@@ -106,35 +106,47 @@ public class TextChecker {
 
     private static List<String> getSimilarities(List<String> words1, List<String> words2, int minimumMatchLength) {
 
+        // store all matches in a list
         List<String> result = new ArrayList<>();
 
+        // iterate over each word in the first file
         for (int p1 = 0; p1 < words1.size(); p1++) {
 
+            // fetch the current word for convenience
             String word1 = words1.get(p1);
 
+            // iterate over each word in the second fild
             for (int p2 = 0; p2 < words2.size(); p2++) {
                 
+                // fetch the current word for convenience
                 String word2 = words2.get(p2);
 
-                if (word2.equals(word1)) { // start of potential match found
+                // if the two words match, we've found the start of potential match 
+                if (word2.equals(word1)) {
 
+                    // store temporary indices at the current location in both files
                     int temp1 = p1;
                     int temp2 = p2;
 
+                    // store every word that matches in a list
                     List<String> matchWords = new ArrayList<>();
 
-                    while (temp1 < words1.size() &&
-                            temp2 < words2.size() &&
-                            words1.get(temp1++).equals(words2.get(temp2++))) {
-                        matchWords.add(words1.get(temp1 - 1));
+                                                                                // while:
+                    while (temp1 < words1.size() &&                             // we haven't reached the end of file 1
+                            temp2 < words2.size() &&                            // we haven't reached the end of file 2
+                            words1.get(temp1++).equals(words2.get(temp2++))) {  // the two words we're looking at match (then we increment both indices),
+                        matchWords.add(words1.get(temp1 - 1));                  // add the word we just incremented past to the match list
                     }
 
+                    // if the amound of matching words is sufficient,
                     if (matchWords.size() >= minimumMatchLength) {
                         
+                        // combine them all into one string and add it to the result list
                         result.add(combine(matchWords));
 
                     }
 
+                    // since we've looked at all of these words, move both loops past them (and back by 1 to account for the loop increment at the end of this iteration)
                     p1 = temp1 - 1;
                     p2 = temp2 - 1;
 
