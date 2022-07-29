@@ -5,7 +5,7 @@ Usage:
 
 Download or clone the repository.
 
-Store both files you want to compare as .txt files.
+Store both files you want to compare as .txt files in the same directory as the program.
 
 Compile with: `javac TextChecker.java`
 
